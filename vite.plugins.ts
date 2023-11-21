@@ -2,14 +2,9 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import setupExtend from 'vite-plugin-vue-setup-extend'
-import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { createHtmlPlugin } from 'vite-plugin-html'
-import topLevelAwait from 'vite-plugin-top-level-await'
 
-export default function createVitePlugins(viteEnv, isBuild = false) {
-  const { VITE_GLOB_APP_TITLE } = viteEnv
+export function createVitePlugins(viteEnv, isBuild = false) {
   const vitePlugins = [
     vue(),
     setupExtend(),
@@ -19,13 +14,10 @@ export default function createVitePlugins(viteEnv, isBuild = false) {
       // 指定symbolId格式
       symbolId: 'icon-[dir]-[name]'
     }),
-    Components({
-      resolvers: [ElementPlusResolver()]
-    }),
     AutoImport({
-      // resolvers: [ElementPlusResolver()],
       // targets to transform
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
+
       // global imports to register
       imports: [
         // 插件预设支持导入的api
@@ -46,23 +38,8 @@ export default function createVitePlugins(viteEnv, isBuild = false) {
       // Filepath to generate corresponding .d.ts file.
       // Defaults to './auto-imports.d.ts' when `typescript` is installed locally.
       // Set `false` to disable.
-      dts: './auto-imports.d.ts',
-
-    }),
-    createHtmlPlugin({
-      minify: isBuild,
-      inject: {
-        data: {
-          title: VITE_GLOB_APP_TITLE
-        }
-      }
-    }),
-    topLevelAwait({
-      // The export name of top-level await promise for each chunk module
-      promiseExportName: '__tla',
-      // The function to generate import names of top-level await promise in each chunk module
-      promiseImportName: i => `__tla_${i}`
+      dts: './auto-imports.d.ts'
     })
   ]
   return vitePlugins
-};
+}

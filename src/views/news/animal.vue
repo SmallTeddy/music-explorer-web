@@ -15,5 +15,3 @@ const showArticleInfo = (id: number) => {
   });
 };
 </script>
-
-<style lang="scss" scoped></style>

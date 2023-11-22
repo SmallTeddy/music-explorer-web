@@ -67,7 +67,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .logo {
   margin-bottom: 20px;
 

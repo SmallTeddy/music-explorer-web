@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import { ElMessage } from "element-plus";
+import { ElMessage } from "element-plus";
 import { constantRoutes } from './route'
-// import { Local } from '../cache'
+import { Local } from '@/cache'
 
 // export const UserLayout = () => import('../layout/index.vue')
 
@@ -25,14 +25,14 @@ router.beforeEach((to, _from, next) => {
     next();
   } else {
     // 获取 token
-    // const token = Local.get('token');
+    const token = Local.get('token');
     // token 不存在
-    // if (token === null || token === '') {
-    //   ElMessage.error('登录失败，请先登录');
-    //   next('/login');
-    // } else {
+    if (token === null || token === '') {
+      ElMessage.error('登录失败，请先登录');
+      next('/login');
+    } else {
       next();
-    // }
+    }
   }
 });
 

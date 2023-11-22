@@ -26,7 +26,7 @@ import { Local } from "@/cache/index";
 // import useUserStore from '@/store/modules/user';
 import { handleEnter } from "@/utils/tools";
 
-const { proxy } = getCurrentInstance() as any;
+// const { proxy } = getCurrentInstance() as any;
 // const userStore = useUserStore()
 const router = useRouter();
 
@@ -72,20 +72,20 @@ onMounted(() => {
   margin-bottom: 20px;
 
   span {
-    font-size: 20px;
-    font-weight: 700;
-    color: #003574;
     margin-left: 8px;
+    font-size: 20px;
+    color: #003574;
+    font-weight: 700;
   }
 }
 
 .login-main {
-  height: 100vh;
-  background: url(../../assets/login-bg.png) no-repeat;
-  background-size: 100% 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url('../../assets/login-bg.png') no-repeat;
+  background-size: 100% 100%;
 }
 
 .login-form {
@@ -100,72 +100,73 @@ onMounted(() => {
 }
 
 .login-btn {
-  font-family: "alliance", mono, sans-serif;
   position: relative;
   z-index: 1;
   display: inline-flex;
-  align-items: center;
   justify-content: center;
-  text-transform: none;
-  font-weight: 600;
-  font-size: 14px;
-  height: 40px;
-  line-height: 40px;
-  width: 100%;
-  border-radius: 0;
+  align-items: center;
   overflow: hidden;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  font-family: alliance, mono, sans-serif;
+  color: #fff;
   background: transparent;
+  border-radius: 0;
+  transition:
+    background 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+  font-weight: 600;
+  line-height: 40px;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   font-feature-settings: "salt" on, "ss01" on, "ss02" on;
-  color: #fff;
-  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out,
-    color 0.3s ease-in-out;
   transition-property: background, border-color, color;
   transition-duration: 0.3s, 0.3s, 0.3s;
   transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
-  transition-delay: 0s, 0s, 0s;
 }
 
-.login-btn:before {
-  content: "";
-  display: block;
+.login-btn::before {
   position: absolute;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   top: 1px;
   left: 1px;
-  background: #000;
   z-index: -1;
-  transform: translate3d(0, 0, 0);
+  display: block;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  background: #000;
   transition: background 0.3s ease-in-out;
+  content: "";
+  transform: translate3d(0, 0, 0);
 }
 
-.login-btn:after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  display: block;
+.login-btn::after {
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
   z-index: -3;
-  background: linear-gradient(
-    269.16deg,
-    #9867f0 -15.83%,
-    #3bf0e4 -4.97%,
-    #33ce43 15.69%,
-    #b2f4b6 32.43%,
-    #ffe580 50.09%,
-    #ff7571 67.47%,
-    #ff7270 84.13%,
-    #ea5dad 105.13%,
-    #c2a0fd 123.24%
-  );
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(
+      269.16deg,
+      #9867f0 -15.83%,
+      #3bf0e4 -4.97%,
+      #33ce43 15.69%,
+      #b2f4b6 32.43%,
+      #ffe580 50.09%,
+      #ff7571 67.47%,
+      #ff7270 84.13%,
+      #ea5dad 105.13%,
+      #c2a0fd 123.24%
+    );
   background-position: 58% 50%;
   background-size: 500%;
+  content: "";
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   animation: gradient-shift 30s ease infinite;
 }
 
@@ -182,12 +183,12 @@ onMounted(() => {
     background-position: 10% 50%;
   }
 
-  to {
+  100% {
     background-position: 58% 50%;
   }
 }
 
-.login-btn:hover:before {
+.login-btn:hover::before {
   background: transparent;
 }
 

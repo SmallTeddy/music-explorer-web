@@ -17,7 +17,7 @@
       "~": ["./"],
       "@/*": ["src/*"]
     },
-    "types": ["element-plus/global"],
+    "types": ["element-plus/global", "vite/client"],
     "allowJs": true
   },
   "include": [

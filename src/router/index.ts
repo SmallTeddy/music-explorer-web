@@ -25,9 +25,10 @@ router.beforeEach((to, _from, next) => {
     next();
   } else {
     // 获取 token
-    const token = Local.get('token');
+    // const token = Local.get('token');
+    const token = '123'
     // token 不存在
-    if (token === null || token === '') {
+    if (!token) {
       ElMessage.error('登录失败，请先登录');
       next('/login');
     } else {

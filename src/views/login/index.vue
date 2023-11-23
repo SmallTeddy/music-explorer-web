@@ -84,7 +84,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: url('../../assets/login-bg.png') no-repeat;
+  background: url("../../assets/login-bg.png") no-repeat;
   background-size: 100% 100%;
 }
 
@@ -113,9 +113,7 @@ onMounted(() => {
   color: #fff;
   background: transparent;
   border-radius: 0;
-  transition:
-    background 0.3s ease-in-out,
-    border-color 0.3s ease-in-out,
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out,
     color 0.3s ease-in-out;
   font-weight: 600;
   line-height: 40px;
@@ -149,19 +147,18 @@ onMounted(() => {
   display: block;
   width: 100%;
   height: 100%;
-  background:
-    linear-gradient(
-      269.16deg,
-      #9867f0 -15.83%,
-      #3bf0e4 -4.97%,
-      #33ce43 15.69%,
-      #b2f4b6 32.43%,
-      #ffe580 50.09%,
-      #ff7571 67.47%,
-      #ff7270 84.13%,
-      #ea5dad 105.13%,
-      #c2a0fd 123.24%
-    );
+  background: linear-gradient(
+    269.16deg,
+    #9867f0 -15.83%,
+    #3bf0e4 -4.97%,
+    #33ce43 15.69%,
+    #b2f4b6 32.43%,
+    #ffe580 50.09%,
+    #ff7571 67.47%,
+    #ff7270 84.13%,
+    #ea5dad 105.13%,
+    #c2a0fd 123.24%
+  );
   background-position: 58% 50%;
   background-size: 500%;
   content: "";

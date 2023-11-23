@@ -1,8 +1,10 @@
 import { RouteRecordRaw } from 'vue-router';
 
+const UserLayout = () => import('@/views/layout/index.vue')
+
 const news: RouteRecordRaw = {
   path: "/news",
-  component: () => import("@/views/news/index.vue"),
+  component: UserLayout,
   name: "News",
   meta: { title: "news" },
   redirect: "/news/animal",

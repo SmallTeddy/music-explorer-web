@@ -12,6 +12,8 @@ const modules: RouteRecordRaw[] = modulesRoutes.reduce(
   []
 );
 
+const UserLayout = () => import('@/views/layout/index.vue')
+
 // 公共路由
 export const constantRoutes: RouteRecordRaw[] = [
   {
@@ -26,9 +28,18 @@ export const constantRoutes: RouteRecordRaw[] = [
   },
   {
     path: "/home",
-    component: () => import("@/views/home/index.vue"),
+    component: UserLayout,
     name: "Home",
     meta: { title: "home" },
+    redirect: "/home/index",
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/home/index.vue"),
+        name: "HomeIndex",
+        meta: { title: "homeIndex" },
+      }
+    ]
   },
   ...modules,
 ];

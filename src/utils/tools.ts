@@ -1,13 +1,13 @@
 import { ElMessage } from "element-plus";
 /**
  * @description 文档注册enter事件
- * @param {any} cb
+ * @param {Function} cb
  * @return {void}
  */
-export const handleEnter = (cb: any): void => {
-  document.onkeydown = (e: any) => {
-    e = window.event || e;
-    if (e.keyCode === 13) {
+export const handleEnter = (cb: Function): void => {
+  document.onkeydown = e => {
+    const ev: KeyboardEventInit = window.event || e;
+    if (ev.keyCode === 13) {
       cb();
     }
   };

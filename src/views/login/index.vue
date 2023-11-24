@@ -23,11 +23,11 @@
 import { useRouter } from "vue-router";
 import { Local } from "@/cache/index";
 // import { getToken, userLogin } from '@/api/userApi'
-// import useUserStore from '@/store/modules/user';
+import useUserStore from "@/store/modules/user";
 import { handleEnter } from "@/utils/tools";
 
 // const { proxy } = getCurrentInstance() as any;
-// const userStore = useUserStore()
+const userStore = useUserStore();
 const router = useRouter();
 
 const loading = ref(false);
@@ -58,7 +58,12 @@ const loginClick = () => {
 
 const userLoginFunc = () => {
   loading.value = false;
-  // userStore.SET_USER_INFO(res)
+  userStore.SET_USER_INFO({
+    id: 1,
+    username: "test",
+    nickname: "测试账号",
+    roles: ["admin", "test"],
+  });
   router.push({ path: "/home" });
 };
 

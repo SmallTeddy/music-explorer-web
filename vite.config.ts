@@ -25,6 +25,7 @@ export default defineConfig(({ mode, command }) => {
       setupExtend(),
       viteMockServe({
         mockPath: "./mock",
+        localEnabled: command === "serve"
       }),
       createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹

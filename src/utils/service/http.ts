@@ -35,9 +35,6 @@ class BaseRequest {
     // 2.添加所有的实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        if (config.params && config.params.page) {
-          config.params.page--;
-        }
         if (config.params && config.params.responseType) {
           config.responseType = config.params.responseType;
           delete config.params.responseType;

@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import { trim } from './tools';
+import { trim } from './index';
 
 // 秘钥
 const keyHex: any = CryptoJS.enc.Utf8.parse('xe3vk9tFTMjxvxFwE6Lk7yf0pFU08T6V');
@@ -9,8 +9,8 @@ const keyHex: any = CryptoJS.enc.Utf8.parse('xe3vk9tFTMjxvxFwE6Lk7yf0pFU08T6V');
  * @param {string} data
  * @returns {any}
  */
-function encryptByDES(data: string) {
-  const encrypted: any = CryptoJS.AES.encrypt(trim(data), keyHex, {
+function encryptByDES(encryptText: string): string {
+  const encrypted: any = CryptoJS.AES.encrypt(trim(encryptText), keyHex, {
     iv: keyHex,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7
@@ -20,11 +20,11 @@ function encryptByDES(data: string) {
 
 /**
  * @description AES 解密
- * @param {any} ciphertext
+ * @param {any} decryptText
  * @returns {any}
  */
-function decryptByDES(ciphertext: any): string {
-  const decrypted: any = CryptoJS.AES.decrypt(ciphertext, keyHex, {
+function decryptByDES(decryptText: string): string {
+  const decrypted: any = CryptoJS.AES.decrypt(decryptText, keyHex, {
     iv: keyHex,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7

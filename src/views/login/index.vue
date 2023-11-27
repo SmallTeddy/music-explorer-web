@@ -22,9 +22,11 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { Local } from "@/cache/index";
-// import { getToken, userLogin } from '@/api/userApi'
+import { getToken, setToken } from "@/utils/tools/user";
+import { userLogin } from "@/api/userApi";
 import useUserStore from "@/store/modules/user";
 import { handleEnter } from "@/utils/tools";
+import { ElMessage } from "element-plus";
 
 // const { proxy } = getCurrentInstance() as any;
 const userStore = useUserStore();
@@ -39,18 +41,19 @@ const loginForm = ref({
 
 const loginClick = () => {
   loading.value = true;
-  const accessToken = Local.get("token");
+  const accessToken = getToken();
   if (!accessToken) {
-    Local.set("token", "abc");
-    userLoginFunc();
-    // getToken().then((res: any) => {
-    //   Local.set('token', res.access_token || res.data.access_token)
-    // }).then(() => {
-    //   userLoginFunc()
-    // }).catch((err) => {
-    //   proxy.$message.error(err)
-    //   loading.value = false
-    // })
+    userLogin()
+      .then((res) => {
+        setToken(res.data.access_token);
+      })
+      .then(() => {
+        userLoginFunc();
+      })
+      .catch((err) => {
+        ElMessage.error(err);
+        loading.value = false;
+      });
   } else {
     userLoginFunc();
   }
@@ -199,3 +202,4 @@ onMounted(() => {
   color: #000;
 }
 </style>
+@/utils

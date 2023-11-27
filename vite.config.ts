@@ -1,52 +1,89 @@
-import { defineConfig, loadEnv } from 'vite'
-import { createVitePlugins } from './vite.plugins'
+import { defineConfig, loadEnv } from "vite";
+import path from "path";
+import vue from "@vitejs/plugin-vue";
+import { fileURLToPath, URL } from "node:url";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
+import { viteMockServe } from "vite-plugin-mock";
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+import setupExtend from "vite-plugin-vue-setup-extend";
+import AutoImport from "unplugin-auto-import/vite";
 
-import path from 'path'
-
-const ENV = 'dev'
+const ENV = "dev";
 const url = {
-  dev: 'https://dev.testing.com',
-  uat: 'https://uat.testing.com'
-}
-const ROOT_URL = url[ENV]
+  dev: "https://dev.testing.com",
+  uat: "https://uat.testing.com",
+};
+const ROOT_URL = url[ENV];
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
-  const env = loadEnv(mode, process.cwd())
+  const env = loadEnv(mode, process.cwd());
   return {
-    plugins: createVitePlugins(env, command === 'build'),
+    plugins: [
+      vue(),
+      nodePolyfills(),
+      setupExtend(),
+      viteMockServe({
+        mockPath: "./mock",
+      }),
+      createSvgIconsPlugin({
+        // 指定需要缓存的图标文件夹
+        iconDirs: [path.resolve(process.cwd(), "src/assets/icons/svg")],
+        // 指定symbolId格式
+        symbolId: "icon-[dir]-[name]",
+      }),
+      AutoImport({
+        // targets to transform
+        include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
+
+        // global imports to register
+        imports: [
+          // 插件预设支持导入的api
+          "vue",
+          "vue-router",
+          "pinia",
+          // 自定义导入的api
+        ],
+
+        // Generate corresponding .eslintrc-auto-import.json file.
+        // eslint globals Docs - https://eslint.org/docs/user-guide/configuring/language-options#specifying-globals
+        eslintrc: {
+          enabled: false, // 默认false, true启用。生成一次就可以，避免每次工程启动都生成
+          filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`
+          globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+        },
+
+        // Filepath to generate corresponding .d.ts file.
+        // Defaults to './auto-imports.d.ts' when `typescript` is installed locally.
+        // Set `false` to disable.
+        dts: "./auto-imports.d.ts",
+      }),
+    ],
     resolve: {
       alias: {
         // 设置路径
-        '~': path.resolve(__dirname, './'),
+        // "~": path.resolve(__dirname, "./"),
+        "~": fileURLToPath(new URL("./", import.meta.url)),
         // 设置别名
-        '@': path.resolve(__dirname, './src'),
+        // "@": path.resolve(__dirname, "./src"),
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
         // views
-        '@views': path.resolve(__dirname, './src/views')
-      }
+        // "@views": path.resolve(__dirname, "./src/views"),
+        "@views": fileURLToPath(new URL("./src/views", import.meta.url)),
+      },
     },
     server: {
       port: 8080,
       host: true,
       open: true,
-      proxy: {
-        // https://cn.vitejs.dev/config/#server-proxy
-        //以下为k8s相关测试服务地址
-        '/xxx/': {
-          target: ROOT_URL, // 用户统一认证
-          changeOrigin: true
-        },
-      }
-    }
-    // css: {
-    //   // css预处理器
-    //   preprocessorOptions: {
-    //     scss: {
-    //       // 引入 mixin.scss 这样就可以在全局中使用 mixin.scss中预定义的变量了
-    //       // 给导入的路径最后加上 ;
-    //       additionalData: '@import "@/styles/variables.module.scss";'
-    //     }
-    //   }
-    // }
-  }
-})
+      // proxy: {
+      // https://cn.vitejs.dev/config/#server-proxy
+      //以下为k8s相关测试服务地址
+      //   '/xxx/': {
+      //     target: ROOT_URL, // 用户统一认证
+      //     changeOrigin: true
+      //   },
+      // }
+    },
+  };
+});

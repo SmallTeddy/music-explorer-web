@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-import { Local } from "@/utils/cache/index";
 import { getToken, setToken } from "@/utils/tools/user";
 import { userLogin } from "@/api/userApi";
 import useUserStore from "@/store/modules/user";

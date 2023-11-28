@@ -11,7 +11,7 @@ export const logout = () => {
 };
 
 export const setToken = (token: string) => {
-  Local.set(token, token);
+  Local.set("token", token);
 };
 
 export const getToken = () => {

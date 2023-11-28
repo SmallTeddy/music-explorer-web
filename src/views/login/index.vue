@@ -108,70 +108,71 @@ onMounted(() => {
 }
 
 .login-btn {
+  width: 100%;
+  height: 38px;
+  font-family: "alliance", mono, sans-serif;
   position: relative;
   z-index: 1;
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-  overflow: hidden;
-  width: 100%;
-  height: 40px;
-  font-size: 14px;
-  font-family: alliance, mono, sans-serif;
-  color: #fff;
-  background: transparent;
-  border-radius: 0;
-  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out,
-    color 0.3s ease-in-out;
+  justify-content: center;
+  text-transform: none;
   font-weight: 600;
-  line-height: 40px;
+  border-radius: 8px;
+  border: 1px solid #c8a43a;
+  overflow: hidden;
+  background: transparent;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   font-feature-settings: "salt" on, "ss01" on, "ss02" on;
+  color: #fff;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
   transition-property: background, border-color, color;
   transition-duration: 0.3s, 0.3s, 0.3s;
   transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
+  transition-delay: 0s, 0s, 0s;
 }
 
-.login-btn::before {
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  z-index: -1;
-  display: block;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
-  background: #000;
-  transition: background 0.3s ease-in-out;
+.login-btn:before {
   content: "";
+  display: block;
+  position: absolute;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  top: 2px;
+  left: 2px;
+  border-radius: 8px;
+  z-index: -1;
   transform: translate3d(0, 0, 0);
+  transition: background 0.3s ease-in-out;
 }
 
-.login-btn::after {
+.login-btn:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   z-index: -3;
-  display: block;
-  width: 100%;
-  height: 100%;
   background: linear-gradient(
     269.16deg,
-    #9867f0 -15.83%,
-    #3bf0e4 -4.97%,
-    #33ce43 15.69%,
-    #b2f4b6 32.43%,
-    #ffe580 50.09%,
-    #ff7571 67.47%,
+    #b2f4b6 -15.83%,
+    #33ce43 -4.97%,
+    #3bf0e4 15.69%,
+    #9867f0 32.43%,
+    #c2a0fd 50.09%,
+    #ea5dad 67.47%,
     #ff7270 84.13%,
-    #ea5dad 105.13%,
-    #c2a0fd 123.24%
+    #ff7571 105.13%,
+    #ffe580 123.24%
   );
   background-position: 58% 50%;
   background-size: 500%;
-  content: "";
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
   animation: gradient-shift 30s ease infinite;
 }
 
@@ -188,18 +189,23 @@ onMounted(() => {
     background-position: 10% 50%;
   }
 
-  100% {
+  to {
     background-position: 58% 50%;
   }
 }
 
-.login-btn:hover::before {
+.login-btn:hover:before {
   background: transparent;
 }
 
 .login-btn:hover {
   cursor: pointer;
-  color: #000;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 </style>
 @/utils

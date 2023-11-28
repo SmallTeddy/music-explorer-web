@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Local } from '@/cache'
+import { Local } from '@/utils/cache'
 
 const useUserStore = defineStore('user', {
   state: () => ({

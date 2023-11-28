@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { ElMessage } from "element-plus";
 import { constantRoutes } from './route'
-import { Local } from '@/cache'
+import { Local } from '@/utils/cache'
 
 // export const UserLayout = () => import('../layout/index.vue')
 
@@ -25,8 +25,7 @@ router.beforeEach((to, _from, next) => {
     next();
   } else {
     // 获取 token
-    // const token = Local.get('token');
-    const token = '123'
+    const token = Local.get('token');
     // token 不存在
     if (!token) {
       ElMessage.error('登录失败，请先登录');

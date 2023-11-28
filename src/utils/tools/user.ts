@@ -1,4 +1,4 @@
-import { Local } from "@/cache";
+import { Local } from "@/utils/cache";
 import useUserStore from "../../store/modules/user";
 
 const userStore = useUserStore();

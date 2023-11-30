@@ -7,8 +7,8 @@ const useUserStore = defineStore('user', {
       id: '',
       username: '',
       nickname: '',
-      roles: []
-    } // 用户信息
+      roles: [],
+    }, // 用户信息
   }),
   // 添加 persist 属性
   persist: true,
@@ -21,11 +21,11 @@ const useUserStore = defineStore('user', {
         id: '',
         username: '',
         nickname: '',
-        roles: []
+        roles: [],
       }
       Local.clear()
-    }
-  }
+    },
+  },
 })
 
 export default useUserStore

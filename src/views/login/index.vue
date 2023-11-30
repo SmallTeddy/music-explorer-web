@@ -1,5 +1,61 @@
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { getToken, setToken } from '@/utils/tools/user'
+import { userLogin } from '@/api/userApi'
+import useUserStore from '@/store/modules/user'
+import { handleEnter } from '@/utils/tools'
+
+// const { proxy } = getCurrentInstance() as any;
+const userStore = useUserStore()
+const router = useRouter()
+
+const loading = ref(false)
+
+const loginForm = ref({
+  username: 'test',
+  password: '1234',
+})
+
+function loginClick() {
+  loading.value = true
+  const accessToken = getToken()
+  if (!accessToken) {
+    userLogin()
+      .then((res) => {
+        setToken(res.data.access_token)
+      })
+      .then(() => {
+        userLoginFunc()
+      })
+      .catch((err) => {
+        ElMessage.error(err)
+        loading.value = false
+      })
+  }
+  else {
+    userLoginFunc()
+  }
+}
+
+function userLoginFunc() {
+  loading.value = false
+  userStore.SET_USER_INFO({
+    id: 1,
+    username: 'test',
+    nickname: '测试账号',
+    roles: ['admin', 'test'],
+  })
+  router.push({ path: '/home' })
+}
+
+onMounted(() => {
+  handleEnter(loginClick)
+})
+</script>
+
 <template>
-  <div class="login-main" v-loading="loading" element-loading-text="Logging in...">
+  <div v-loading="loading" class="login-main" element-loading-text="Logging in...">
     <div class="login-form">
       <div class="logo flex-c flex-align">
         <!-- <img style="height: 50px;" src="../../assets/logo.png" alt="logo" /> -->
@@ -9,70 +65,17 @@
           <el-input v-model="loginForm.username" />
         </el-form-item>
         <el-form-item label="Password：">
-          <el-input type="password" v-model="loginForm.password" />
+          <el-input v-model="loginForm.password" type="password" />
         </el-form-item>
       </el-form>
       <div class="footer-btn flex-c">
-        <button class="login-btn" @click="loginClick">login</button>
+        <button class="login-btn" @click="loginClick">
+          login
+        </button>
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { useRouter } from "vue-router";
-import { getToken, setToken } from "@/utils/tools/user";
-import { userLogin } from "@/api/userApi";
-import useUserStore from "@/store/modules/user";
-import { handleEnter } from "@/utils/tools";
-import { ElMessage } from "element-plus";
-
-// const { proxy } = getCurrentInstance() as any;
-const userStore = useUserStore();
-const router = useRouter();
-
-const loading = ref(false);
-
-const loginForm = ref({
-  username: "test",
-  password: "1234",
-});
-
-const loginClick = () => {
-  loading.value = true;
-  const accessToken = getToken();
-  if (!accessToken) {
-    userLogin()
-      .then((res) => {
-        setToken(res.data.access_token);
-      })
-      .then(() => {
-        userLoginFunc();
-      })
-      .catch((err) => {
-        ElMessage.error(err);
-        loading.value = false;
-      });
-  } else {
-    userLoginFunc();
-  }
-};
-
-const userLoginFunc = () => {
-  loading.value = false;
-  userStore.SET_USER_INFO({
-    id: 1,
-    username: "test",
-    nickname: "测试账号",
-    roles: ["admin", "test"],
-  });
-  router.push({ path: "/home" });
-};
-
-onMounted(() => {
-  handleEnter(loginClick);
-});
-</script>
 
 <style lang="scss" scoped>
 .logo {

@@ -8,5 +8,5 @@ export {
   TEST_BASE_URL,
   API_BASE_URL,
   AUTH_BASE_URL,
-  TIME_OUT
+  TIME_OUT,
 }

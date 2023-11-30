@@ -1,4 +1,4 @@
-import { ElMessage } from "element-plus";
+import { ElMessage } from 'element-plus'
 import { blobType } from './blobType'
 
 export function download(file: any, fileType: string, fileName?: string) {
@@ -7,7 +7,8 @@ export function download(file: any, fileType: string, fileName?: string) {
     fileName = `${timeStr}`
   }
   const type = formatFileType(fileType)
-  if (!type) return ElMessage.warning('暂不支持此格式!')
+  if (!type)
+    return ElMessage.warning('暂不支持此格式!')
   const blob = new Blob([file], { type })
   const downloadElement = document.createElement('a')
   const href = window.URL.createObjectURL(blob) // 创建下载的链接
@@ -24,13 +25,16 @@ export function formatFileType(fileFormat: string) {
 }
 
 export function blobToFileReader(blob: any, callback: any) {
-  if (!blob.size) return ElMessage.warning('暂无资源!')
-  if (blob.type !== 'application/json') return callback(blob)
+  if (!blob.size)
+    return ElMessage.warning('暂无资源!')
+  if (blob.type !== 'application/json')
+    return callback(blob)
   const fr: any = new FileReader()
   fr.onloadend = function () {
     try {
       callback(JSON.parse(fr.result))
-    } catch (err) {
+    }
+    catch (err) {
       ElMessage.warning('资源数据有误!')
     }
   }

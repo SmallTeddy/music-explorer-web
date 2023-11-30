@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { ElMessage } from "element-plus";
+import { ElMessage } from 'element-plus'
 import { constantRoutes } from './route'
 import { Local } from '@/utils/cache'
 
@@ -13,7 +13,7 @@ export const route404 = {
 
 const router = createRouter({
   history: createWebHistory('/'),
-  routes: constantRoutes
+  routes: constantRoutes,
 })
 
 /**
@@ -22,18 +22,20 @@ const router = createRouter({
 router.beforeEach((to, _from, next) => {
   if (to.path == '/login') {
     // 登录或者注册才可以往下进行
-    next();
-  } else {
+    next()
+  }
+  else {
     // 获取 token
-    const token = Local.get('token');
+    const token = Local.get('token')
     // token 不存在
     if (!token) {
-      ElMessage.error('登录失败，请先登录');
-      next('/login');
-    } else {
-      next();
+      ElMessage.error('登录失败，请先登录')
+      next('/login')
+    }
+    else {
+      next()
     }
   }
-});
+})
 
 export default router

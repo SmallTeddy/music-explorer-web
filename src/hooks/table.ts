@@ -4,7 +4,7 @@ export function useTableParamsHook(CallbackFn: any) {
   const total = ref<number>(0)
   const pageInfo = ref({
     page: 1,
-    size: 10
+    size: 10,
   })
   const changePageInfo = (info: any) => {
     pageInfo.value = info

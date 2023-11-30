@@ -1,19 +1,19 @@
-import { MockMethod } from "vite-plugin-mock";
+import type { MockMethod } from 'vite-plugin-mock'
 
 const mockItems: MockMethod[] = [
   {
-    url: "/mock/login",
-    method: "post",
+    url: '/mock/login',
+    method: 'post',
     response: () => {
       return {
         status: 200,
         data: {
-          "access_token": "abc",
+          access_token: 'abc',
         },
-        message: "success",
-      };
+        message: 'success',
+      }
     },
   },
-];
+]
 
-export default mockItems;
+export default mockItems

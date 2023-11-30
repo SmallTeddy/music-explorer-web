@@ -1,4 +1,4 @@
-import { ElMessage } from 'element-plus'
+import { ElMessage, MessageHandler } from 'element-plus'
 
 /**
  * @description 文档注册enter事件
@@ -10,8 +10,9 @@ export function handleEnter(cb: Function): void {
     return
 
   document.onkeydown = (e) => {
-    const ev: KeyboardEventInit = window.event || e
-    if (ev.keyCode === 13)
+    const ev: KeyboardEventInit = e || window.event
+    const keyCode = ev.code || ev.keyCode
+    if (keyCode === 'Enter' || keyCode === 13)
       cb()
   }
 }
@@ -45,7 +46,7 @@ export function parseTime(time: string | number, pattern: string) {
 
     date = new Date(time)
   }
-  const formatObj: any = {
+  const formatObj: Record<string, string> = {
     y: date.getFullYear(), // 年
     m: date.getMonth() + 1, // 月
     d: date.getDate(), // 日
@@ -60,7 +61,7 @@ export function parseTime(time: string | number, pattern: string) {
     if (key === 'a')
       return ['日', '一', '二', '三', '四', '五', '六'][value]
 
-    if (result.length > 0 && value < 10)
+    if (result.length > 0 && Number(value) < 10)
       value = `0${value}`
 
     return value || 0
@@ -81,14 +82,18 @@ export function trim(str: string): string {
  * @description uuid的生成
  * @return {string}
  */
-export function getUUID() {
-  const s: any = []
+/**
+ * @description 生成UUID
+ * @return {string}
+ */
+export function getUUID(): string {
+  const s: string[] = []
   const hexDigits = '0123456789abcdef'
-  for (let i = 0; i < 36; i++)
-    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
-
+  for (let i = 0; i < 36; i++) {
+    s[i] = hexDigits[Math.floor(Math.random() * 0x10)]
+  }
   s[14] = '4'
-  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
+  s[19] = hexDigits[(parseInt(s[19], 16) & 0x3) | 0x8]
   s[8] = s[13] = s[18] = s[23] = '-'
 
   const uuid = s.join('')
@@ -141,9 +146,9 @@ export function numberFormatter(num: number, digits: number | undefined): string
 /**
  * @description 复制方法
  * @param {string} value 传入要复制的值
- * @return {any}
+ * @return {string | MessageHandler}
  */
-export function copy(value: string): any {
+export const copy = (value: string): string | MessageHandler => {
   if (!value)
     return ElMessage.error('复制失败')
 
@@ -160,7 +165,7 @@ export function copy(value: string): any {
 /**
  * @description 防抖
  * @param {number} timer
- * @return {any}
+ * @return {function}
  */
 export function debounce(timer = 0): (callback: unknown, delay: number) => void {
   return (callback: unknown, delay: number) => {
@@ -175,16 +180,15 @@ export function debounce(timer = 0): (callback: unknown, delay: number) => void 
 /**
  * @description 节流
  * @param {number} timer
- * @return {any}
+ * @return {function}
  */
-export const throttle: (fn: (...args: any) => void, timer: number) => (...args: any) => void = (fn, timer = 0) => {
-  let time: any = null
-  const _throttle = (...args: any) => {
+export const throttle: (fn: (...args: unknown[]) => void, timer: number) => (...args: unknown[]) => void = (fn, timer = 0) => {
+  let time: number | null = null
+  return (...args: unknown[]) => {
     if (time)
       clearTimeout(time)
     time = setTimeout(() => {
       fn.apply(this, args)
     }, timer)
   }
-  return _throttle
 }

@@ -1,14 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 const modulesFiles = import.meta.glob('./modules/*.ts', { eager: true })
-
 const modules: RouteRecordRaw[] = Object.entries(modulesFiles)
   .reduce((accumulator: RouteRecordRaw[], [_path, file]: [string, unknown]) => {
     if (typeof file === 'function') {
       const module = file()
-      if (module.default) {
-        accumulator.push(module.default)
-      }
+      if (module.default) accumulator.push(module.default)
     }
     return accumulator
   }, [])

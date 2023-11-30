@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { URL, fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
@@ -64,13 +63,8 @@ export default defineConfig(({ mode, command }) => {
       alias: {
         // 设置路径
         "~": path.resolve(__dirname, "./"),
-        // '~': fileURLToPath(new URL('./', import.meta.url)),
         // 设置别名
-        "@": path.resolve(__dirname, "./src"),
-        // '@': fileURLToPath(new URL('./src', import.meta.url)),
-        // views
-        // "@views": path.resolve(__dirname, "./src/views"),
-        '@views': fileURLToPath(new URL('./src/views', import.meta.url)),
+        "@": path.resolve(__dirname, "./src")
       },
     },
     server: {

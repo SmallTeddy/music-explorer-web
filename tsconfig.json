@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "types": ["element-plus/global", "vite/client"],
     "allowJs": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "isolatedModules": true,

@@ -26,7 +26,7 @@
 ```
 
 <details>
-  <summary>命名规范</summary>
+  <summary>命名规范</summary><br>
 
 ```
 1. 目录名
@@ -91,7 +91,7 @@
 </details>
 
 <details>
-  <summary>css 命名规范</summary>
+  <summary>css 命名规范</summary><br>
 
 CSS 的命名，采用 [BEM](http://getbem.com/) 命名规范，可以有效的避免组件间样式的相互污染，减少嵌套层级。具体规则如下：
 
@@ -297,7 +297,7 @@ prefix-block\_\_elementName--modifierName
 </details>
 
 <details>
-  <summary>ts 开发规范</summary>
+  <summary>ts 开发规范</summary><br>
 
 ```typescript
 
@@ -356,7 +356,7 @@ export const paramsFix = (query: unknown) => {
 </details>
 
 <details>
-  <summary>git 规范规范</summary>
+  <summary>git 规范规范</summary><br>
 
 每次提交尽量只做一件事 没事多提交!
 添加到混存区: git add .
@@ -400,7 +400,7 @@ Does this change affect any open issues?
 </details>
 
 <details>
-  <summary>插件和库</summary>
+  <summary>插件和库</summary><br>
 
 ### vscode plugin
 

@@ -161,18 +161,16 @@ onMounted(() => {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   z-index: -3;
-  background: linear-gradient(
-    269.16deg,
-    #b2f4b6 -15.83%,
-    #33ce43 -4.97%,
-    #3bf0e4 15.69%,
-    #9867f0 32.43%,
-    #c2a0fd 50.09%,
-    #ea5dad 67.47%,
-    #ff7270 84.13%,
-    #ff7571 105.13%,
-    #ffe580 123.24%
-  );
+  background: linear-gradient(269.16deg,
+      #b2f4b6 -15.83%,
+      #33ce43 -4.97%,
+      #3bf0e4 15.69%,
+      #9867f0 32.43%,
+      #c2a0fd 50.09%,
+      #ea5dad 67.47%,
+      #ff7270 84.13%,
+      #ff7571 105.13%,
+      #ffe580 123.24%);
   background-position: 58% 50%;
   background-size: 500%;
   animation: gradient-shift 30s ease infinite;

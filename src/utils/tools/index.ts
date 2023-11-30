@@ -1,10 +1,14 @@
 import { ElMessage } from "element-plus";
+
 /**
  * @description 文档注册enter事件
  * @param {Function} cb
  * @return {void}
  */
 export const handleEnter = (cb: Function): void => {
+  if (typeof cb!== "function") {
+    return;
+  }
   document.onkeydown = e => {
     const ev: KeyboardEventInit = window.event || e;
     if (ev.keyCode === 13) {
@@ -41,17 +45,17 @@ export function parseTime(time: string | number, pattern: string) {
     date = new Date(time)
   }
   const formatObj: any = {
-    y: date.getFullYear(),
-    m: date.getMonth() + 1,
-    d: date.getDate(),
-    h: date.getHours(),
-    i: date.getMinutes(),
-    s: date.getSeconds(),
-    a: date.getDay()
+    y: date.getFullYear(), // 年
+    m: date.getMonth() + 1, // 月
+    d: date.getDate(), // 日
+    h: date.getHours(), // 时
+    i: date.getMinutes(), // 分
+    s: date.getSeconds(), // 秒
+    a: date.getDay() // 星期几
   }
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
-    // Note: getDay() returns 0 on Sunday
+    // 注意：getDay()返回的是0表示星期天
     if (key === 'a') {
       return ['日', '一', '二', '三', '四', '五', '六'][value]
     }
@@ -69,7 +73,7 @@ export function parseTime(time: string | number, pattern: string) {
  * @return {string}
  */
 export const trim = (str: string): string => {
-  return str.replace(/^\s+|\s+$/g, '');
+  return str.replace(/^\s+|\s+$/g, ''); // 去除字符串两端的空格
 }
 
 /**

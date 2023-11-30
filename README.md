@@ -28,7 +28,7 @@
 <details>
   <summary>命名规范</summary><br>
 
-```
+```bash
 1. 目录名
   参照项目命名规则，有复数结构时，要采用复数命名法。
     eg. docs、assets、components、directives、mixins、utils、views
@@ -145,12 +145,12 @@ BEM 使用分隔符将类名区隔成三个部分：
 - 使用**连字符**来区隔单词，保证样式类名全小写，**不使用驼峰命名法（Camel-Case）**
 - 类名应该易于阅读，因此除非缩写是普遍可识别的，否则缩写并不建议使用
 
-```
+```bash
 <!-- GOOD -->
 prefix-block\_\_element-name--modifier-name
 ```
 
-```
+```bash
 <!-- BAD -->
 prefix-block\_\_elementName--modifierName
 ```
@@ -362,7 +362,7 @@ export const paramsFix = (query: unknown) => {
 添加到混存区: git add .
 将暂存区内容添加到本地仓库中: yarn run commit 或者 npx cz
 
-```
+```bash
 1.选择 type(非必填)
 以下为日志类别对照表：
 feat: 新功能  |   fix: 修复    |  perf: 优化    |  refactor: 重构
@@ -382,7 +382,7 @@ Does this change affect any open issues?
 
 #### git 常用命令
 
-```
+```bash
 ├─ git status 查看状态
 ├─ git pull 拉取远程代码
 ├─ git push 推送代码

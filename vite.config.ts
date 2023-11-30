@@ -63,11 +63,11 @@ export default defineConfig(({ mode, command }) => {
     resolve: {
       alias: {
         // 设置路径
-        // "~": path.resolve(__dirname, "./"),
-        '~': fileURLToPath(new URL('./', import.meta.url)),
+        "~": path.resolve(__dirname, "./"),
+        // '~': fileURLToPath(new URL('./', import.meta.url)),
         // 设置别名
-        // "@": path.resolve(__dirname, "./src"),
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        "@": path.resolve(__dirname, "./src"),
+        // '@': fileURLToPath(new URL('./src', import.meta.url)),
         // views
         // "@views": path.resolve(__dirname, "./src/views"),
         '@views': fileURLToPath(new URL('./src/views', import.meta.url)),

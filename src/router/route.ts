@@ -1,16 +1,17 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 const modulesFiles = import.meta.glob('./modules/*.ts', { eager: true })
-const modulesRoutes = Object.values(modulesFiles)
 
-const modules: RouteRecordRaw[] = modulesRoutes.reduce(
-  (routeArr: RouteRecordRaw[], routeItem: any) => {
-    const defaultRoute: RouteRecordRaw[] = Object.values(routeItem)
-    routeArr.push(...defaultRoute)
-    return routeArr
-  },
-  [],
-)
+const modules: RouteRecordRaw[] = Object.entries(modulesFiles)
+  .reduce((accumulator: RouteRecordRaw[], [_path, file]: [string, unknown]) => {
+    if (typeof file === 'function') {
+      const module = file()
+      if (module.default) {
+        accumulator.push(module.default)
+      }
+    }
+    return accumulator
+  }, [])
 
 const UserLayout = () => import('@/views/layout/index.vue')
 

@@ -28,8 +28,6 @@
 <details>
   <summary>命名规范</summary>
 
-### 命名规范
-
 ```
 1. 目录名
   参照项目命名规则，有复数结构时，要采用复数命名法。
@@ -93,9 +91,7 @@
 </details>
 
 <details>
-  <summary>css 规范</summary>
-
-### CSS 命名规范
+  <summary>css 命名规范</summary>
 
 CSS 的命名，采用 [BEM](http://getbem.com/) 命名规范，可以有效的避免组件间样式的相互污染，减少嵌套层级。具体规则如下：
 
@@ -301,9 +297,7 @@ prefix-block\_\_elementName--modifierName
 </details>
 
 <details>
-  <summary>ts 规范</summary>
-
-### ts 注意事项[参考]
+  <summary>ts 开发规范</summary>
 
 ```typescript
 
@@ -362,9 +356,7 @@ export const paramsFix = (query: unknown) => {
 </details>
 
 <details>
-  <summary>git 规范</summary>
-
-### git 提交规范
+  <summary>git 规范规范</summary>
 
 每次提交尽量只做一件事 没事多提交!
 添加到混存区: git add .

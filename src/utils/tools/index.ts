@@ -238,12 +238,16 @@ export function debounce(timer = 0): (callback: unknown, delay: number) => void 
  * @param {number} timer
  * @return {function}
  */
-// 导出一个函数，该函数接收两个参数，一个是函数fn，一个是定时器timer，返回一个函数，该函数接收任意参数args，当time不为null时，清除定时器，并将time设置为定时器，执行函数fn，并将参数args传入
+// 导出一个函数，该函数接受两个参数，一个是函数fn，一个是定时器timer
 export const throttle: (fn: (...args: unknown[]) => void, timer: number) => (...args: unknown[]) => void = (fn, timer = 0) => {
+  // 定义一个变量time，初始值为null
   let time: number | null = null
+  // 返回一个函数，该函数接受任意参数
   return (...args: unknown[]) => {
+    // 如果time不为null，则清除定时器
     if (time)
       clearTimeout(time)
+    // 设置定时器，定时调用fn函数，并传入参数args
     time = setTimeout(() => {
       fn.apply(this, args)
     }, timer)

@@ -137,7 +137,17 @@ onMounted(() => {
 
 <template>
   <div class="music-container flex flex-column flex-align">
-    <audio ref="audioRef" controls :src="musicUrl"></audio>
+
+    <div class="btn-audio flex-align">
+      <img src="../../assets/十一月的肖邦.png" alt="十一月的肖邦" style="width: 5.2rem;">
+      <div class="lf">
+        <p style="font-size: 1.2rem; color: #333;margin: 1rem 0 0.3rem 1.2rem;">夜曲</p>
+        <p style="font-size: 1rem; color: #888; margin: 0 0 0 1.2rem">周杰伦 - 夜曲</p>
+      </div>
+      <div class="mp3Box">
+        <audio ref="audioRef" controls :src="musicUrl"></audio>
+      </div>
+    </div>
     <div ref="containerRef" class="container">
       <ul ref="ulRef" class="lrc-list">
         <li v-for="lrcItem in lrcLines" :key="lrcItem.time">
@@ -156,7 +166,13 @@ onMounted(() => {
 
 audio {
   width: 450px;
-  margin: 30px 0;
+  margin: 0 1.2rem;
+}
+
+.btn-audio {
+  height: 5.2rem;
+  border: 1px solid #ebebeb;
+  background-color: #fdfdfd;
 }
 
 .container {

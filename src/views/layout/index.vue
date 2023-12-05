@@ -4,12 +4,12 @@
   <div class="common-layout">
     <el-container>
       <el-header class="flex-c flex-align header">
-        Header
+        SmallTeddy
       </el-header>
       <el-container>
-        <el-aside class="flex-c flex-align h-100 aside">
+        <!-- <el-aside class="flex-c flex-align h-100 aside">
           Aside
-        </el-aside>
+        </el-aside> -->
         <el-main>
           <router-view />
         </el-main>
@@ -31,6 +31,6 @@
 
 .el-main {
   overflow: hidden;
-  padding: 15px;
+  padding: 0;
 }
 </style>

@@ -26,6 +26,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/**/*.lrc",
+    "src/**/*.mp3",
     "auto-imports.d.ts"
   ]
 }

@@ -173,6 +173,7 @@ audio {
   height: 5.2rem;
   border: 1px solid #ebebeb;
   background-color: #fdfdfd;
+  margin-bottom: 30px;
 }
 
 .container {

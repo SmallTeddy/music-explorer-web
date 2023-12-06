@@ -19,4 +19,6 @@
 
 ### Demo
 
-<img title="Demo" src='./doc/demo.png' width="100%"></img>
+<img title="DemoWavy" src='./doc/demo-wavy.png' width="100%"></img>
+
+<img title="DemoColumnar" src='./doc/demo-columnar.png' width="100%"></img>

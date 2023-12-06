@@ -6,6 +6,16 @@ const { proxy } = getCurrentInstance()
 const lrcData = ref()
 const lrcLines = ref([])
 
+const audioDom = ref(null)
+const ulDom = ref(null)
+const containerDom = ref(null)
+const canvasDom = ref(null)
+const ctx = ref(null)
+const isInit = ref(false)
+const analyser = ref(null)
+const dataSource = ref(null)
+const mode = ref('Wavy')
+
 const getMusicLrc = () => {
   getLrc().then(async lrc => {
     const { data } = await lrc
@@ -32,11 +42,6 @@ const parseTime = (timeStr: string): number => {
   const parts = timeStr.split(':');
   return +parts[0] * 60 + +parts[1];
 }
-
-const audioDom = ref(null)
-const ulDom = ref(null)
-const containerDom = ref(null)
-const canvasDom = ref(null)
 
 const containerHeight = computed(() => {
   return containerDom.value?.clientHeight
@@ -76,6 +81,85 @@ const setOffset = () => {
   }
 }
 
+const initCanvas = () => {
+  canvasDom.value.width = window.innerWidth * devicePixelRatio
+  canvasDom.value.height = 300
+}
+
+const audioPlay = () => {
+  audioDom.value.onplay = () => {
+    if (isInit.value) return
+    const audCtx = new AudioContext() // 音频上下文
+    const source = audCtx.createMediaElementSource(audioDom.value) // 音频源节点
+    analyser.value = audCtx.createAnalyser()
+    analyser.value.fftSize = 512
+    dataSource.value = new Uint8Array(analyser.value.frequencyBinCount)
+    source.connect(analyser.value)
+    analyser.value.connect(audCtx.destination)
+
+    isInit.value = true
+  }
+}
+
+// 柱状
+const drawColumnar = () => {
+  requestAnimationFrame(drawColumnar)
+  const { width, height } = canvasDom.value
+  ctx.value.clearRect(0, 0, width, height)
+  if (!isInit.value) return
+  if (dataSource.value) {
+    analyser.value && analyser.value.getByteFrequencyData(dataSource.value)
+
+    const len = dataSource.value.length
+    const barWidth = width / len
+    ctx.value.fillStyle = 'skyblue'
+    dataSource.value.forEach((v, i) => {
+      const barHeight = v / 255 * height
+      const x = i * barWidth
+      const y = height - barHeight
+      ctx.value.fillRect(x, y, barWidth, barHeight)
+    })
+  }
+}
+
+// 波浪
+const drawWavy = () => {
+  requestAnimationFrame(drawWavy);
+  const { width, height } = canvasDom.value
+  ctx.value.clearRect(0, 0, width, height)
+  if (!isInit.value) return
+  if (dataSource.value) {
+    analyser.value && analyser.value.getByteFrequencyData(dataSource.value)
+
+    const len = dataSource.value.length
+    const sliceWidth = width * 1.0 / len
+    let x = 0
+
+    ctx.value.beginPath();
+    ctx.value.strokeStyle = 'skyblue'
+    dataSource.value.forEach((v, i) => {
+      const vNormalized = v / 255
+      const y = vNormalized * height / 2
+
+      if (i === 0) {
+        ctx.value.moveTo(x, y)
+      } else {
+        ctx.value.lineTo(x, y)
+      }
+
+      x += sliceWidth
+    });
+
+    ctx.value.lineTo(width, height / 2);
+    ctx.value.stroke();
+  }
+};
+
+const changeMode = () => {
+  mode.value = mode.value === 'Columnar' ? 'Wavy' : 'Columnar'
+  mode.value == 'Columnar' ? drawColumnar() : drawWavy()
+}
+
 onMounted(() => {
   getMusicLrc()
 
@@ -83,85 +167,11 @@ onMounted(() => {
   ulDom.value = proxy.$refs.ulRef as HTMLUListElement
   containerDom.value = proxy.$refs.containerRef as HTMLDivElement
   canvasDom.value = proxy.$refs.canvasRef as HTMLDivElement
+  ctx.value = canvasDom.value.getContext('2d')
 
-  const ctx = canvasDom.value.getContext('2d')
+  audioPlay()
 
-  const initCanvas = () => {
-    canvasDom.value.width = window.innerWidth * devicePixelRatio
-    canvasDom.value.height = 300
-  }
   initCanvas()
-  let isInit = false
-  let analyser, dataSource
-  audioDom.value.onplay = () => {
-    if (isInit) {
-      return
-    }
-    const audCtx = new AudioContext() // 音频上下文
-    const source = audCtx.createMediaElementSource(audioDom.value) // 音频源节点
-    analyser = audCtx.createAnalyser()
-    analyser.fftSize = 512
-    dataSource = new Uint8Array(analyser.frequencyBinCount)
-    source.connect(analyser)
-    analyser.connect(audCtx.destination)
-
-
-    isInit = true
-  }
-
-  // 柱状
-  const drawColumnar = () => {
-    requestAnimationFrame(drawColumnar)
-    const { width, height } = canvasDom.value
-    ctx.clearRect(0, 0, width, height)
-    if (!isInit) {
-      return
-    }
-    analyser.getByteFrequencyData(dataSource)
-
-    const len = dataSource.length
-    const barWidth = width / len
-    ctx.fillStyle = 'skyblue'
-    dataSource.forEach((v, i) => {
-      const barHeight = v / 255 * height
-      const x = i * barWidth
-      const y = height - barHeight
-      ctx.fillRect(x, y, barWidth, barHeight)
-    })
-  }
-
-  // 波浪
-  const drawWavy = () => {
-    requestAnimationFrame(drawWavy);
-    const { width, height } = canvasDom.value;
-    ctx.clearRect(0, 0, width, height);
-    if (!isInit) {
-      return;
-    }
-    analyser.getByteFrequencyData(dataSource);
-
-    const len = dataSource.length;
-    const sliceWidth = width * 1.0 / len;
-    let x = 0;
-
-    ctx.beginPath();
-    ctx.fillStyle = 'skyblue';
-    dataSource.forEach((v, i) => {
-      const vNormalized = v / 255;
-      const y = vNormalized * height / 2;
-
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-
-      x += sliceWidth;
-    });
-
-    ctx.lineTo(width, height / 2);
-    ctx.stroke();
-  };
 
   drawWavy()
 
@@ -181,9 +191,9 @@ onMounted(() => {
       <div class="mp3Box">
         <audio ref="audioRef" controls :src="musicUrl"></audio>
       </div>
-      <!-- <div>
-        <el-button style="background: transparent;">change mode</el-button>
-      </div> -->
+      <div style="width: 60px; text-align: center;">
+        <el-button link @click="changeMode">{{ mode }}</el-button>
+      </div>
     </div>
     <div ref="containerRef" class="lrc-container">
       <ul ref="ulRef" class="lrc-list">

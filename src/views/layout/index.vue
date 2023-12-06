@@ -4,7 +4,7 @@
   <div class="common-layout">
     <el-container>
       <el-header class="flex-c flex-align header">
-        SmallTeddy
+        <h2 style="color: #ffffff90">SmallTeddy</h2>
       </el-header>
       <el-container>
         <!-- <el-aside class="flex-c flex-align h-100 aside">
@@ -21,7 +21,7 @@
 <style lang="scss" scoped>
 .header {
   height: 60px;
-  background-color: #b3c0d1;
+  background-color: #333;
 }
 
 .aside {

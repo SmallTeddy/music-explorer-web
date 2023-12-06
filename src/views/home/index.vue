@@ -109,8 +109,9 @@ onMounted(() => {
     isInit = true
   }
 
-  const draw = () => {
-    requestAnimationFrame(draw)
+  // 柱状
+  const drawColumnar = () => {
+    requestAnimationFrame(drawColumnar)
     const { width, height } = canvasDom.value
     ctx.clearRect(0, 0, width, height)
     if (!isInit) {
@@ -129,7 +130,40 @@ onMounted(() => {
     })
   }
 
-  draw()
+  // 波浪
+  const drawWavy = () => {
+    requestAnimationFrame(drawWavy);
+    const { width, height } = canvasDom.value;
+    ctx.clearRect(0, 0, width, height);
+    if (!isInit) {
+      return;
+    }
+    analyser.getByteFrequencyData(dataSource);
+
+    const len = dataSource.length;
+    const sliceWidth = width * 1.0 / len;
+    let x = 0;
+
+    ctx.beginPath();
+    ctx.fillStyle = 'skyblue';
+    dataSource.forEach((v, i) => {
+      const vNormalized = v / 255;
+      const y = vNormalized * height / 2;
+
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+
+      x += sliceWidth;
+    });
+
+    ctx.lineTo(width, height / 2);
+    ctx.stroke();
+  };
+
+  drawWavy()
 
   audioDom.value.addEventListener('timeupdate', setOffset);
 })
@@ -138,65 +172,109 @@ onMounted(() => {
 <template>
   <div class="music-container flex flex-column flex-align">
 
-    <div class="btn-audio flex-align">
+    <div class="audio-container flex-align">
       <img src="../../assets/十一月的肖邦.png" alt="十一月的肖邦" style="width: 5.2rem;">
-      <div class="lf">
-        <p style="font-size: 1.2rem; color: #333;margin: 1rem 0 0.3rem 1.2rem;">夜曲</p>
-        <p style="font-size: 1rem; color: #888; margin: 0 0 0 1.2rem">周杰伦 - 夜曲</p>
+      <div class="flex-column" style="margin-left: 0.5rem;">
+        <div style="font-size: 1.6rem; color: #999; margin-bottom: 0.2rem;">夜曲</div>
+        <div style="font-size: 1.2rem; color: #999;">周杰伦 - 夜曲</div>
       </div>
       <div class="mp3Box">
         <audio ref="audioRef" controls :src="musicUrl"></audio>
       </div>
     </div>
-    <div ref="containerRef" class="container">
+    <div ref="containerRef" class="lrc-container">
       <ul ref="ulRef" class="lrc-list">
         <li v-for="lrcItem in lrcLines" :key="lrcItem.time">
           {{ lrcItem.words }}
         </li>
       </ul>
     </div>
-    <canvas ref="canvasRef"></canvas>
+    <div class="cvs-container">
+      <canvas ref="canvasRef"></canvas>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .music-container {
   height: calc(100vh - 60px);
-}
+  background: #1b1d1d;
 
-audio {
-  width: 450px;
-  margin: 0 1.2rem;
-}
+  audio {
+    width: 450px;
+    margin: 0 1.2rem;
+    background: #303233;
+    border-radius: 54px;
+  }
 
-.btn-audio {
-  height: 5.2rem;
-  border: 1px solid #ebebeb;
-  background-color: #fdfdfd;
-  margin-bottom: 30px;
-}
+  audio::-webkit-media-controls-panel {
+    background-image: initial;
+    background-color: #777;
+    transition: none;
+  }
 
-.container {
-  flex: 1;
-  height: 220px;
-  text-align: center;
-  overflow: hidden;
-}
+  audio::-webkit-media-controls-current-time-display,
+  audio::-webkit-media-controls-time-remaining-display {
+    background: #777;
+    text-shadow: none;
+  }
 
-.container ul {
-  transition: 0.6s;
-  list-style: none;
-}
+  .audio-container {
+    height: 5.2rem;
+    // border: 1px solid #777;
+  }
 
-.container li {
-  height: 30px;
-  line-height: 30px;
-  transition: 0.2s;
-}
+  .lrc-container {
+    width: 100%;
+    padding-top: 30px;
+    flex: 1;
+    height: 220px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
 
-.container li.active {
-  color: skyblue;
-  transform: scale(1.2);
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(to bottom, rgba(27, 29, 29, 1), rgba(255, 255, 255, 0));
+      pointer-events: none;
+    }
+
+    &::before {
+      top: 0;
+    }
+
+    &::after {
+      bottom: 0;
+      transform: rotate(180deg);
+    }
+
+    ul {
+      transition: 0.6s;
+      list-style: none;
+      color: #ffffff70;
+
+      li {
+        height: 30px;
+        line-height: 30px;
+        transition: 0.2s;
+
+        &.active {
+          font-weight: 700;
+          color: #fff;
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .cvs-container {
+    padding-top: 10px;
+  }
 }
 </style>
 

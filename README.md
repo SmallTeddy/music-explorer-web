@@ -1,6 +1,6 @@
-# Testing Web
+# music-explorer-web
 
-## 项目说明
+### 项目说明
 
 ```
 ｜ 项目由 vue3 + vite + vue-router + element-plus + sass + ts 搭建

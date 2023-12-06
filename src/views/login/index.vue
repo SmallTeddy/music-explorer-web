@@ -18,11 +18,11 @@ const loginForm = ref({
 })
 
 function loginClick() {
-  loading.value = true
-  const accessToken = getToken()
-  if (!accessToken) {
-    setToken('abc')
-    loading.value = false
+  // loading.value = true
+  // const accessToken = getToken()
+  // if (!accessToken) {
+  //   setToken('abc')
+  //   loading.value = false
     // userLogin()
     //   .then((res) => {
     //     setToken(res.data.access_token)
@@ -34,10 +34,10 @@ function loginClick() {
     //     ElMessage.error(err)
     //     loading.value = false
     //   })
-  }
-  else {
+  // }
+  // else {
     userLoginFunc()
-  }
+  // }
 }
 
 function userLoginFunc() {

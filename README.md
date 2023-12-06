@@ -19,4 +19,4 @@
 
 ### Demo
 
-<img title="Demo" src='./doc/demo.jpg' width="100%"></img>
+<img title="Demo" src='./doc/demo.png' width="100%"></img>

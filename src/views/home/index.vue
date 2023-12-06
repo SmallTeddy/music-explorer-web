@@ -181,6 +181,9 @@ onMounted(() => {
       <div class="mp3Box">
         <audio ref="audioRef" controls :src="musicUrl"></audio>
       </div>
+      <!-- <div>
+        <el-button style="background: transparent;">change mode</el-button>
+      </div> -->
     </div>
     <div ref="containerRef" class="lrc-container">
       <ul ref="ulRef" class="lrc-list">

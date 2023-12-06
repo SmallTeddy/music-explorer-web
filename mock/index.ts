@@ -6,6 +6,9 @@ const mockItems: MockMethod[] = [
     method: 'post',
     response: () => {
       return {
+        headers: {
+          'Content-Type': 'application/json'
+        },
         status: 200,
         data: {
           access_token: 'abc',

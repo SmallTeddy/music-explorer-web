@@ -10,7 +10,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 const ENV = 'dev'
 const url = {
   dev: 'https://dev.testing.com',
-  uat: 'https://uat.testing.com',
+  uat: 'https://smallteddy.github.io/',
 }
 const ROOT_URL = url[ENV]
 
@@ -75,18 +75,18 @@ export default defineConfig(({ mode, command }) => {
       proxy: {
         // https://cn.vitejs.dev/config/#server-proxy
         // 以下为k8s相关测试服务地址
-        // '/xxx/': {
-        //   target: ROOT_URL, // 用户统一认证
-        //   ws: false, // 禁用WebSocket
-        //   changeOrigin: true, // 修改请求头中的Origin为目标URL
-        //   rewrite: path => path.replace(/^\/xxx/, ''), // 重写请求，去掉前缀
-        //   // 绕过代理请求的处理函数
-        //   bypass(req, res, proxyOptions) {
-        //     // 转发到后端的路径
-        //     const proxyUrl = proxyOptions.target + proxyOptions.rewrite(req.url)
-        //     console.log(`proxyUrl:${proxyUrl}`) // 打印代理的URL
-        //   },
-        // },
+        '/': {
+          target: 'https://smallteddy.github.io/', // 用户统一认证
+          // ws: false, // 禁用WebSocket
+          changeOrigin: true, // 修改请求头中的Origin为目标URL
+          // rewrite: path => path.replace(/^\//, ''), // 重写请求，去掉前缀
+          // 绕过代理请求的处理函数
+          // bypass(req, res, proxyOptions) {
+          //   // 转发到后端的路径
+          //   const proxyUrl = proxyOptions.target + proxyOptions.rewrite(req.url)
+          //   console.log(`proxyUrl:${proxyUrl}`) // 打印代理的URL
+          // },
+        },
       },
     },
   }

@@ -12,12 +12,13 @@ const router = useRouter()
 
 const loading = ref(false)
 
-const loginForm = ref({
+const loginForm = ref()
+loginForm.value = {
   username: 'test',
   password: '1234',
-})
+}
 
-function loginClick() {
+const loginClick = () => {
   loading.value = true
   const accessToken = getToken()
   if (!accessToken) {
@@ -38,7 +39,7 @@ function loginClick() {
   }
 }
 
-function userLoginFunc() {
+const userLoginFunc = () => {
   loading.value = false
   userStore.SET_USER_INFO({
     id: 1,

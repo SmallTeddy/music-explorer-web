@@ -88,5 +88,8 @@ export default defineConfig(({ mode, command }) => {
         // },
       },
     },
+    test: {
+      environment: 'happy-dom'
+    }
   }
 })

@@ -78,7 +78,7 @@ class BaseRequest {
         this.loading?.close()
 
         // 例子: 判断不同的HttpErrorCode显示不同的错误信息
-        switch (err.response.status) {
+        switch (err.response?.status) {
           case 400:
             ElMessage.error('请求错误(400)')
             break
@@ -114,7 +114,7 @@ class BaseRequest {
             ElMessage.error('HTTP版本不受支持(505)')
             break
           default: {
-            ElMessage.error(`连接出错(${err.response.status})!`)
+            ElMessage.error(`连接出错(${err.response?.status})!`)
           }
         }
         return err

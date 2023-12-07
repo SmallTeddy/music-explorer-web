@@ -1,9 +1,8 @@
-import useUserStore from '../../store/modules/user'
+import useUserStore from '@/store/modules/user'
 import { Local } from '@/utils/cache'
 
-const userStore = useUserStore()
-
 export function logout() {
+  const userStore = useUserStore()
   userStore.LOGOUT()
   setTimeout(() => {
     window.location.href = '/login'

@@ -134,7 +134,8 @@ class BaseRequest {
       // 携带token的拦截
       if (!config.noToken && getToken()) {
         config.headers = {
-          Authorization: getToken(),
+          'Authorization': getToken(),
+          'Content-Type': 'application/json'
         }
       }
       // 2.判断是否需要显示loading

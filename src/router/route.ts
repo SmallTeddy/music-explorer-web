@@ -23,7 +23,7 @@ const UserLayout = () => import('@/views/layout/index.vue')
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/home',
   },
   {
     path: '/login',

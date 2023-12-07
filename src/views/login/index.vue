@@ -18,24 +18,26 @@ const loginForm = ref({
 })
 
 function loginClick() {
-  loading.value = true
-  const accessToken = getToken()
-  if (!accessToken) {
-    userLogin()
-      .then((res) => {
-        setToken(res.data.access_token)
-      })
-      .then(() => {
-        userLoginFunc()
-      })
-      .catch((err) => {
-        ElMessage.error(err)
-        loading.value = false
-      })
-  }
-  else {
+  // loading.value = true
+  // const accessToken = getToken()
+  // if (!accessToken) {
+  //   setToken('abc')
+  //   loading.value = false
+    // userLogin()
+    //   .then((res) => {
+    //     setToken(res.data.access_token)
+    //   })
+    //   .then(() => {
+    //     userLoginFunc()
+    //   })
+    //   .catch((err) => {
+    //     ElMessage.error(err)
+    //     loading.value = false
+    //   })
+  // }
+  // else {
     userLoginFunc()
-  }
+  // }
 }
 
 function userLoginFunc() {

@@ -6,6 +6,9 @@ const mockItems: MockMethod[] = [
     method: 'get',
     response: () => {
       return {
+        headers: {
+          'Content-Type': 'application/json'
+        },
         status: 200,
         data: `[00:00.000]夜曲 - 周杰伦 (Jay Chou)
 [00:04.990]词：方文山

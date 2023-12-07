@@ -16,6 +16,20 @@ const analyser = ref(null)
 const dataSource = ref(null)
 const mode = ref('Wavy')
 
+/**
+ * 初始化 Dom
+ */
+const initDom = () => {
+  audioDom.value = proxy.$refs.audioRef as HTMLAudioElement
+  ulDom.value = proxy.$refs.ulRef as HTMLUListElement
+  containerDom.value = proxy.$refs.containerRef as HTMLDivElement
+  canvasDom.value = proxy.$refs.canvasRef as HTMLDivElement
+  ctx.value = canvasDom.value.getContext('2d')
+}
+
+/**
+ * 获取歌词
+ */
 const getMusicLrc = () => {
   getLrc().then(async lrc => {
     const { data } = await lrc
@@ -24,6 +38,9 @@ const getMusicLrc = () => {
   })
 }
 
+/**
+ * 解析歌词
+ */
 const parseLrc = (): void => {
   const lines = lrcData.value.split('\n');
   lrcLines.value = []
@@ -38,6 +55,10 @@ const parseLrc = (): void => {
   })
 }
 
+/**
+ * 解析时间
+ * @param timeStr 
+ */
 const parseTime = (timeStr: string): number => {
   const parts = timeStr.split(':');
   return +parts[0] * 60 + +parts[1];
@@ -53,6 +74,9 @@ const maxOffset = computed(() => {
   return ulDom.value?.clientHeight - containerHeight.value
 })
 
+/**
+ * 获取当前播放时间
+ */
 const findIndex = () => {
   const curTime = audioDom.value.currentTime;
   for (let i = 0; i < lrcLines.value.length; i++) {
@@ -63,6 +87,9 @@ const findIndex = () => {
   return lrcLines.value.length - 1;
 }
 
+/**
+ * 设置偏移
+ */
 const setOffset = () => {
   const index = findIndex();
   let offset = liHeight.value * index + liHeight.value / 2 - containerHeight.value / 2;
@@ -81,11 +108,17 @@ const setOffset = () => {
   }
 }
 
+/**
+ * 初始化canvas
+ */
 const initCanvas = () => {
   canvasDom.value.width = window.innerWidth * devicePixelRatio
   canvasDom.value.height = 300
 }
 
+/**
+ * 音频播放
+ */
 const audioPlay = () => {
   audioDom.value.onplay = () => {
     if (isInit.value) return
@@ -155,27 +188,21 @@ const drawWavy = () => {
   }
 };
 
+/**
+ * 切换模式
+ */
 const changeMode = () => {
   mode.value = mode.value === 'Columnar' ? 'Wavy' : 'Columnar'
   mode.value == 'Columnar' ? drawColumnar() : drawWavy()
 }
 
 onMounted(() => {
-  getMusicLrc()
-
-  audioDom.value = proxy.$refs.audioRef as HTMLAudioElement
-  ulDom.value = proxy.$refs.ulRef as HTMLUListElement
-  containerDom.value = proxy.$refs.containerRef as HTMLDivElement
-  canvasDom.value = proxy.$refs.canvasRef as HTMLDivElement
-  ctx.value = canvasDom.value.getContext('2d')
-
-  audioPlay()
-
-  initCanvas()
-
-  drawWavy()
-
-  audioDom.value.addEventListener('timeupdate', setOffset);
+  getMusicLrc() // 获取歌词
+  initDom() // 初始化 Dom
+  audioPlay() // 音频播放
+  initCanvas() // 初始化 canvas
+  drawWavy() // 绘制波浪
+  audioDom.value.addEventListener('timeupdate', setOffset); // 根据歌曲播放设置歌词偏移
 })
 </script>
 

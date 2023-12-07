@@ -23,22 +23,7 @@ const UserLayout = () => import('@/views/layout/index.vue')
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/home',
-  },
-  {
-    path: '/home',
-    component: UserLayout,
-    name: 'Home',
-    meta: { title: 'home' },
-    redirect: '/home/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/home/index.vue'),
-        name: 'HomeIndex',
-        meta: { title: 'homeIndex' },
-      },
-    ],
+    component: () => import('@/views/home/index.vue'),
   },
   ...modules,
 ]

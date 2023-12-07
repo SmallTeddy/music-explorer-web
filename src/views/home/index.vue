@@ -18,9 +18,9 @@ const mode = ref('Wavy')
 
 const getMusicLrc = () => {
   // getLrc().then(async lrc => {
-    // const { data } = await lrc
-    // lrcData.value = data
-    lrcData.value = `[00:00.000]夜曲 - 周杰伦 (Jay Chou)
+  // const { data } = await lrc
+  // lrcData.value = data
+  lrcData.value = `[00:00.000]夜曲 - 周杰伦 (Jay Chou)
 [00:04.990]词：方文山
 [00:09.980]曲：周杰伦
 [00:14.970]编曲：林迈可
@@ -99,7 +99,7 @@ const getMusicLrc = () => {
 [03:36.240]广场上喂食的是秃鹰
 [03:38.470]我用漂亮的押韵
 [03:39.680]形容被掠夺一空的爱情`
-    parseLrc()
+  parseLrc()
   // })
 }
 
@@ -259,35 +259,54 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="music-container flex flex-column flex-align">
+  <el-container>
+    <el-header class="flex-c flex-align header">
+      <h2 style="color: #ffffff90">SmallTeddy Music</h2>
+    </el-header>
+    <el-container>
+      <el-main>
+        <div class="music-container flex flex-column flex-align">
 
-    <div class="audio-container flex-align">
-      <img src="../../assets/十一月的肖邦.png" alt="十一月的肖邦" style="width: 5.2rem;">
-      <div class="flex-column" style="margin-left: 0.5rem;">
-        <div style="font-size: 1.6rem; color: #999; margin-bottom: 0.2rem;">夜曲</div>
-        <div style="font-size: 1.2rem; color: #999;">周杰伦 - 夜曲</div>
-      </div>
-      <div class="mp3Box">
-        <audio ref="audioRef" controls :src="musicUrl"></audio>
-      </div>
-      <div style="width: 60px; text-align: center;">
-        <el-button link @click="changeMode">{{ mode }}</el-button>
-      </div>
-    </div>
-    <div ref="containerRef" class="lrc-container">
-      <ul ref="ulRef" class="lrc-list">
-        <li v-for="lrcItem in lrcLines" :key="lrcItem.time">
-          {{ lrcItem.words }}
-        </li>
-      </ul>
-    </div>
-    <div class="cvs-container">
-      <canvas ref="canvasRef"></canvas>
-    </div>
-  </div>
+          <div class="audio-container flex-align">
+            <img src="../../assets/十一月的肖邦.png" alt="十一月的肖邦" style="width: 5.2rem;">
+            <div class="flex-column" style="margin-left: 0.5rem;">
+              <div style="font-size: 1.6rem; color: #999; margin-bottom: 0.2rem;">夜曲</div>
+              <div style="font-size: 1.2rem; color: #999;">周杰伦 - 夜曲</div>
+            </div>
+            <div class="mp3Box">
+              <audio ref="audioRef" controls :src="musicUrl"></audio>
+            </div>
+            <div style="width: 60px; text-align: center;">
+              <el-button link @click="changeMode">{{ mode }}</el-button>
+            </div>
+          </div>
+          <div ref="containerRef" class="lrc-container">
+            <ul ref="ulRef" class="lrc-list">
+              <li v-for="lrcItem in lrcLines" :key="lrcItem.time">
+                {{ lrcItem.words }}
+              </li>
+            </ul>
+          </div>
+          <div class="cvs-container">
+            <canvas ref="canvasRef"></canvas>
+          </div>
+        </div>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <style scoped lang="scss">
+.header {
+  height: 60px;
+  background-color: #333;
+}
+
+.el-main {
+  overflow: hidden;
+  padding: 0;
+}
+
 .music-container {
   height: calc(100vh - 60px);
   background: #1b1d1d;

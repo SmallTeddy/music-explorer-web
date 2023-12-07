@@ -17,7 +17,7 @@ const modules: RouteRecordRaw[] = modulesRoutes.reduce(
   []
 ) as RouteRecordRaw[];
 
-const UserLayout = () => import('@/views/layout/index.vue')
+// const UserLayout = () => import('@/views/layout/index.vue')
 
 // 公共路由
 export const constantRoutes: RouteRecordRaw[] = [

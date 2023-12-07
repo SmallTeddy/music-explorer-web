@@ -23,7 +23,8 @@ router.beforeEach((to, _from, next) => {
   if (to.path == '/login') {
     // 登录或者注册x才可以往下进行
     next()
-  } else {
+  }
+  else {
     // 获取 token
     const token = Local.get('token')
     // token 不存在

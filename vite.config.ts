@@ -62,9 +62,9 @@ export default defineConfig(({ mode, command }) => {
     resolve: {
       alias: {
         // 设置路径
-        "~": path.resolve(__dirname, "./"),
+        '~': path.resolve(__dirname, './'),
         // 设置别名
-        "@": path.resolve(__dirname, "./src")
+        '@': path.resolve(__dirname, './src'),
       },
     },
     server: {

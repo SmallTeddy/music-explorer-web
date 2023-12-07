@@ -4,7 +4,9 @@
   <div class="common-layout">
     <el-container>
       <el-header class="flex-c flex-align header">
-        <h2 style="color: #ffffff90">SmallTeddy Music</h2>
+        <h2 style="color: #ffffff90">
+          SmallTeddy Music
+        </h2>
       </el-header>
       <el-container>
         <el-main>

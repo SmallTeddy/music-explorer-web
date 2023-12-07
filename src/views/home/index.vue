@@ -19,7 +19,7 @@ const mode = ref('Wavy')
 /**
  * 初始化 Dom
  */
-const initDom = () => {
+function initDom() {
   audioDom.value = proxy.$refs.audioRef as HTMLAudioElement
   ulDom.value = proxy.$refs.ulRef as HTMLUListElement
   containerDom.value = proxy.$refs.containerRef as HTMLDivElement
@@ -30,8 +30,8 @@ const initDom = () => {
 /**
  * 获取歌词
  */
-const getMusicLrc = () => {
-  getLrc().then(async lrc => {
+function getMusicLrc() {
+  getLrc().then(async (lrc) => {
     const { data } = await lrc
     lrcData.value = data
     parseLrc()
@@ -41,27 +41,27 @@ const getMusicLrc = () => {
 /**
  * 解析歌词
  */
-const parseLrc = (): void => {
-  const lines = lrcData.value.split('\n');
+function parseLrc(): void {
+  const lines = lrcData.value.split('\n')
   lrcLines.value = []
-  lines.map(item => {
+  lines.map((item) => {
     const parts = item.split(']')
-    const timeStr = parts[0].substring(1);
+    const timeStr = parts[0].substring(1)
     const obj = {
       time: parseTime(timeStr),
       words: parts[1],
-    };
+    }
     lrcLines.value.push(obj)
   })
 }
 
 /**
  * 解析时间
- * @param timeStr 
+ * @param timeStr
  */
-const parseTime = (timeStr: string): number => {
-  const parts = timeStr.split(':');
-  return +parts[0] * 60 + +parts[1];
+function parseTime(timeStr: string): number {
+  const parts = timeStr.split(':')
+  return +parts[0] * 60 + +parts[1]
 }
 
 const containerHeight = computed(() => {
@@ -77,41 +77,38 @@ const maxOffset = computed(() => {
 /**
  * 获取当前播放时间
  */
-const findIndex = () => {
-  const curTime = audioDom.value.currentTime;
+function findIndex() {
+  const curTime = audioDom.value.currentTime
   for (let i = 0; i < lrcLines.value.length; i++) {
-    if (curTime < lrcLines.value[i].time) {
-      return i - 1;
-    }
+    if (curTime < lrcLines.value[i].time)
+      return i - 1
   }
-  return lrcLines.value.length - 1;
+  return lrcLines.value.length - 1
 }
 
 /**
  * 设置偏移
  */
-const setOffset = () => {
-  const index = findIndex();
-  let offset = liHeight.value * index + liHeight.value / 2 - containerHeight.value / 2;
-  offset = offset < 0 ? 0 : offset;
-  offset = offset > maxOffset.value ? maxOffset.value : offset;
-  ulDom.value.style.transform = `translateY(-${offset}px)`;
+function setOffset() {
+  const index = findIndex()
+  let offset = liHeight.value * index + liHeight.value / 2 - containerHeight.value / 2
+  offset = offset < 0 ? 0 : offset
+  offset = offset > maxOffset.value ? maxOffset.value : offset
+  ulDom.value.style.transform = `translateY(-${offset}px)`
   // 去掉之前的 active 样式
-  let li = ulDom.value.querySelector('.active');
-  if (li) {
-    li.classList.remove('active');
-  }
+  let li = ulDom.value.querySelector('.active')
+  if (li)
+    li.classList.remove('active')
 
-  li = ulDom.value.children[index];
-  if (li) {
-    li.classList.add('active');
-  }
+  li = ulDom.value.children[index]
+  if (li)
+    li.classList.add('active')
 }
 
 /**
  * 初始化canvas
  */
-const initCanvas = () => {
+function initCanvas() {
   canvasDom.value.width = window.innerWidth * devicePixelRatio
   canvasDom.value.height = 300
 }
@@ -119,9 +116,10 @@ const initCanvas = () => {
 /**
  * 音频播放
  */
-const audioPlay = () => {
+function audioPlay() {
   audioDom.value.onplay = () => {
-    if (isInit.value) return
+    if (isInit.value)
+      return
     const audCtx = new AudioContext() // 音频上下文
     const source = audCtx.createMediaElementSource(audioDom.value) // 音频源节点
     analyser.value = audCtx.createAnalyser()
@@ -135,11 +133,12 @@ const audioPlay = () => {
 }
 
 // 柱状
-const drawColumnar = () => {
+function drawColumnar() {
   requestAnimationFrame(drawColumnar)
   const { width, height } = canvasDom.value
   ctx.value.clearRect(0, 0, width, height)
-  if (!isInit.value) return
+  if (!isInit.value)
+    return
   if (dataSource.value) {
     analyser.value && analyser.value.getByteFrequencyData(dataSource.value)
 
@@ -156,11 +155,12 @@ const drawColumnar = () => {
 }
 
 // 波浪
-const drawWavy = () => {
-  requestAnimationFrame(drawWavy);
+function drawWavy() {
+  requestAnimationFrame(drawWavy)
   const { width, height } = canvasDom.value
   ctx.value.clearRect(0, 0, width, height)
-  if (!isInit.value) return
+  if (!isInit.value)
+    return
   if (dataSource.value) {
     analyser.value && analyser.value.getByteFrequencyData(dataSource.value)
 
@@ -168,30 +168,29 @@ const drawWavy = () => {
     const sliceWidth = width * 1.0 / len
     let x = 0
 
-    ctx.value.beginPath();
+    ctx.value.beginPath()
     ctx.value.strokeStyle = 'skyblue'
     dataSource.value.forEach((v, i) => {
       const vNormalized = v / 255
       const y = vNormalized * height / 2
 
-      if (i === 0) {
+      if (i === 0)
         ctx.value.moveTo(x, y)
-      } else {
+      else
         ctx.value.lineTo(x, y)
-      }
 
       x += sliceWidth
-    });
+    })
 
-    ctx.value.lineTo(width, height / 2);
-    ctx.value.stroke();
+    ctx.value.lineTo(width, height / 2)
+    ctx.value.stroke()
   }
-};
+}
 
 /**
  * 切换模式
  */
-const changeMode = () => {
+function changeMode() {
   mode.value = mode.value === 'Columnar' ? 'Wavy' : 'Columnar'
   mode.value == 'Columnar' ? drawColumnar() : drawWavy()
 }
@@ -202,24 +201,29 @@ onMounted(() => {
   audioPlay() // 音频播放
   initCanvas() // 初始化 canvas
   drawWavy() // 绘制波浪
-  audioDom.value.addEventListener('timeupdate', setOffset); // 根据歌曲播放设置歌词偏移
+  audioDom.value.addEventListener('timeupdate', setOffset) // 根据歌曲播放设置歌词偏移
 })
 </script>
 
 <template>
   <div class="music-container flex flex-column flex-align">
-
     <div class="audio-container flex-align">
       <img src="../../assets/十一月的肖邦.png" alt="十一月的肖邦" style="width: 5.2rem;">
       <div class="flex-column" style="margin-left: 0.5rem;">
-        <div style="font-size: 1.6rem; color: #999; margin-bottom: 0.2rem;">夜曲</div>
-        <div style="font-size: 1.2rem; color: #999;">周杰伦 - 夜曲</div>
+        <div style="font-size: 1.6rem; color: #999; margin-bottom: 0.2rem;">
+          夜曲
+        </div>
+        <div style="font-size: 1.2rem; color: #999;">
+          周杰伦 - 夜曲
+        </div>
       </div>
       <div class="mp3Box">
-        <audio ref="audioRef" controls :src="musicUrl"></audio>
+        <audio ref="audioRef" controls :src="musicUrl" />
       </div>
       <div style="width: 60px; text-align: center;">
-        <el-button link @click="changeMode">{{ mode }}</el-button>
+        <el-button link @click="changeMode">
+          {{ mode }}
+        </el-button>
       </div>
     </div>
     <div ref="containerRef" class="lrc-container">
@@ -230,7 +234,7 @@ onMounted(() => {
       </ul>
     </div>
     <div class="cvs-container">
-      <canvas ref="canvasRef"></canvas>
+      <canvas ref="canvasRef" />
     </div>
   </div>
 </template>
@@ -317,4 +321,3 @@ onMounted(() => {
   }
 }
 </style>
-

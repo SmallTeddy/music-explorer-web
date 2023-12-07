@@ -1,4 +1,5 @@
-import { ElMessage, MessageHandler } from 'element-plus'
+import type { MessageHandler } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 /**
  * @description 文档注册enter事件
@@ -117,13 +118,13 @@ export function getUUID(): string {
   // 定义十六进制字符串
   const hexDigits = '0123456789abcdef'
   // 循环36次，每次随机生成一个十六进制字符串，添加到s数组中
-  for (let i = 0; i < 36; i++) {
+  for (let i = 0; i < 36; i++)
     s[i] = hexDigits[Math.floor(Math.random() * 0x10)]
-  }
+
   // 将s数组的第14个元素设置为4
   s[14] = '4'
   // 将s数组的第19个元素设置为十六进制字符串，并将其与0x3进行按位与运算，再将结果与0x8进行按位或运算
-  s[19] = hexDigits[(parseInt(s[19], 16) & 0x3) | 0x8]
+  s[19] = hexDigits[(Number.parseInt(s[19], 16) & 0x3) | 0x8]
   // 将s数组的第8、13、18、23个元素设置为'-'
   s[8] = s[13] = s[18] = s[23] = '-'
 
@@ -191,7 +192,7 @@ export function numberFormatter(num: number, digits: number | undefined): string
  * @return {string | MessageHandler}
  */
 // 导出一个名为copy的函数，该函数接收一个字符串参数，返回一个字符串或者MessageHandler
-export const copy = (value: string): string | MessageHandler => {
+export function copy(value: string): string | MessageHandler {
   // 如果传入的参数为空，则返回错误信息
   if (!value)
     return ElMessage.error('复制失败')
@@ -217,7 +218,7 @@ export const copy = (value: string): string | MessageHandler => {
 /**
  * @description 防抖
  * @param {number} timer
- * @return {function}
+ * @return {Function}
  */
 // 导出一个函数，用于防抖，参数timer默认值为0
 export function debounce(timer = 0): (callback: unknown, delay: number) => void {
@@ -236,7 +237,7 @@ export function debounce(timer = 0): (callback: unknown, delay: number) => void 
 /**
  * @description 节流
  * @param {number} timer
- * @return {function}
+ * @return {Function}
  */
 // 导出一个函数，该函数接受两个参数，一个是函数fn，一个是定时器timer
 export const throttle: (fn: (...args: unknown[]) => void, timer: number) => (...args: unknown[]) => void = (fn, timer = 0) => {

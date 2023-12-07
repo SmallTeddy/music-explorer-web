@@ -18,7 +18,6 @@ const ROOT_URL = url[ENV]
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
   return {
-    base: './',
     plugins: [
       vue(),
       nodePolyfills(),
